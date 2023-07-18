@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  comic: one
+  reader: one
+
+two:
+  comic: two
+  reader: two
