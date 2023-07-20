@@ -4,11 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="./style.css">
-    <title>Single Page Application</title>
+    <title>Comics API</title>
   </head>
   <body>
+    <div id="main-content">
+      <h1>Comic Reviews</h1>
 
-    <script src="index.js" defer></script>
+      <!-- <form id="create-review-form" action="http://localhost:3000/reviews" method="post"> -->
+        <form id="create-review-form" action="#" method="post">
+        <label for="new-review-description">Review:</label>
+        <input type="text" id="new-review-description" name="new-review-description" placeholder="description">
+        <br>
+        <input type="submit" value="Create New Review">
+      </form>
+
+      <div id="list">
+        <h2>Reviews</h2>
+        <ul id="reviews">
+        </ul>
+      </div>
+
+    <script src="./src/index.js"></script>
     <!-- <script src="./src/index.js"></script> -->
+  </div>
   </body>
 </html>
+
+
