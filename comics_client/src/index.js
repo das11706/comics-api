@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // const newReviewDescription = document.getElementById("new-review-description");
   // const newReviewList = document.getElementById("reviews");
   reviewForm.addEventListener("submit", createReview);
+
+  // submitData();
+  fetchReviews();
 });
 
 
@@ -48,30 +51,51 @@ const createReview = (event) => {
 //   document.getElementById("reviews").removeChild();
 // }
 
-function submitData(id, description, comic, reader) {
-  return fetch("http://localhost:3000/reviews", {
-    method : "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    },
-    body: JSON.stringify({
-      id,
-      description,
-      comic,
-      reader,
-    })
-  })
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(object) {
-      document.body.innerHTML = object["id"]
-    }) 
-    .catch(function(error) {
+// function submitData(id, description, comic, reader) {
+//   return fetch("http://localhost:3000/reviews", {
+//     method : "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "Accept": "application/json"
+//     },
+//     body: JSON.stringify({
+//       id,
+//       description,
+//       comic,
+//       reader,
+//     })
+//   })
+//     .then(function(response) {
+//       return response.json();
+//     })
+//     .then(json => renderComics(json))
+//     // .then(function(object) {
+//     //   document.body.innerHTML = object["id"]
+//     // }) 
+//     // .catch(function(error) {
     
-      document.body.innerHTML = error.message
-    })
+//     //   document.body.innerHTML = error.message
+//     // })
+// }
+
+function fetchReviews() {
+  return fetch("http://localhost:3000/reviews")
+  .then(resp => resp.json())
+  .then(json => renderReviews(json))
+}
+
+
+function renderReviews(reviews) {
+  const main = document.querySelector('main');
+  reviews.forEach(review => {
+    const h2 = document.createElement('h2');
+    h2.innerHTML = review.comic.title;
+    main.appendChild(h2);
+
+    const h3 = document.createElement('h3');
+    h3.innerHTML = review.comic.artist;
+    main.appendChild(h3);
+  });
 }
 
 

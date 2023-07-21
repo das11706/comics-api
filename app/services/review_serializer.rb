@@ -16,12 +16,7 @@ class ReviewSerializer
       },
       except: [:created_at, :updated_at],
     }
-    @review.to_json(options)
-    
-    # @review.to_json(:include => { 
-    #   :comic => {:only => [:artist, :title]}, 
-    #   :reader => {:only => [:name]}
-    # }, :except => [:created_at, :updated_at])
+    @review.to_json(options) 
   end
 
 end

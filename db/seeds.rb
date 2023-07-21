@@ -8,9 +8,9 @@
 
 
 
-# Comic.destroy_all
-# Reader.destroy_all
-# Review.destroy_all
+Comic.destroy_all
+Reader.destroy_all
+Review.destroy_all
 
 
 
