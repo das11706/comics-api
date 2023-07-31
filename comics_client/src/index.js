@@ -120,13 +120,10 @@ function renderComics(review) {
     h2.innerHTML = review.title;
     // h2.innerHTML = comic.title;
     main.appendChild(h2);
-
-    const a = document.createElement('a');
-    const link = document.createTextNode(h2)
-    a.appendChild(link);
-    a.setAttribute('href',"http://localhost:3000/reviews/1" )
-    a.innerHTML = h2;
-    document.getElementsByTagName('h2')[0].appendChild(a);
+    // const a = document.createElement('a');
+    // a.setAttribute('href',"http://localhost:3000/reviews/1" )
+    // a.innerHTML = h2;
+    // document.getElementsByTagName('main')[0].appendChild(a);
 
     const h3 = document.createElement('h3');
     h3.innerHTML = review.artist;

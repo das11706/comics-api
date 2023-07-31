@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   resources :reviews
+  get '/reviews' => 'reviews#index'
+  get '/reviews/:id' => 'reviews#show'
+  post '/reviews' => 'reviews#create'
+  patch 'reviews/:id' => 'reviews#update'
+  delete '/reviews/:id' => 'reviews#destroy'
+
   resources :readers
   
   # resources :comics
@@ -9,7 +15,7 @@ Rails.application.routes.draw do
   post '/comics' => 'comics#create'
   patch '/comics/:id' => 'comics#update'
   delete '/comics/:id' => 'comics#destroy'
-  
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

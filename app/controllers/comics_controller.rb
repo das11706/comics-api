@@ -2,7 +2,8 @@ class ComicsController < ApplicationController
 
   def index
     comics = Comic.all
-    render json: comics
+    # render json: comics, except: [:created_at, :updated_at]
+    render json: comics, only: [:artist, :title]
   end
 
   def new
@@ -18,6 +19,7 @@ class ComicsController < ApplicationController
       # redirect_to json: { title: comic.title, artist: comic.artist }
     else
       render :new
+    end
   end
 
   def show
@@ -25,7 +27,9 @@ class ComicsController < ApplicationController
     if comic
       render json: { title: comic.title, artist: comic.artist }
     else
-      render Json: { message: "Comic does not exist"}
+      render json: { message: "Comic does not exist"}
     end
   end
+
+
 end
