@@ -5,6 +5,14 @@ class ReviewsController < ApplicationController
     render json: ReviewSerializer.new(reviews).to_serialized_json
   end
 
+  # def new
+  #   review = Review.new
+  # end
+
+  # def create
+  #   review = Review.new()
+  # end
+
 
   def show
     review = Review.find_by(id: params[:id])
