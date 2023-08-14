@@ -5,22 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="./style.css">
     <title>Comics API</title>
-    <script type="text/javascript" src="./src/index.js"></script>
+    <script type="text/javascript" src="./src/index.js" defer></script>
   </head>
   <body>
     <h1>Comics</h1>
     <main></main>
+    <div>
+      <div id="comic-collection">   
+      </div>
+    </div>
     <br>
 
     <div id="main-content">
-      <h2>Comic Reviews</h2>
 
-      <!-- <form id="create-review-form" action="http://localhost:3000/reviews" method="POST"> -->
-        <form id="create-review-form" action="#" method="post">
-        <label for="newReviewDescription">Review:</label>
-        <input type="text" id="newReviewDescription" name="newReviewDescription" placeholder="description">
+      <!-- <h2>Comics</h2>
+
+      <select id="comicList" onchange= "onchangeDropdown()">
+        <option value= "Batman">Batman the Dark Knight</option>
+        <option value="Spiderman">The Amazing Spiderman</option>
+      </select>
+
+      <p id="para"></p> -->
+
+      <h2>Create a new comic:</h2>
+      <form id="comic-form" action="http://localhost:3000/reviews" method="POST">
+       
+        <!-- <label for="newComic">Comic:</label> -->
         <br>
-        <input type="submit" value="Create New Review">
+        <input type="text" id="title" name="title" placeholder="title">
+        <br>
+        <input type="text" id="artist" name="artist" placeholder="artist">
+        <br>
+        <input type="submit" id="submit-comic" value="New comic">
+      </form>
+
+      <div id="list">
+        <!-- <h2>Comics</h2> -->
+        <ul id="comics">
+        </ul>
+      </div>
+
+
+
+
+
+      <form id="review-form" action="http://localhost:3000/reviews" method="POST">
+       
+        <!-- <label for="newReview">Review:</label> -->
+        <h2>Create a review:</h2>
+        <br>
+        <input type="text" id="description" name="description" placeholder="description">
+        <br>
+        <input type="submit" id="submit-review" value="New Review">
       </form>
 
       <div id="list">
@@ -29,12 +65,8 @@
         </ul>
       </div>
 
-      <!-- <script src="./src/index.js"></script> -->
-      <!-- <script src="./src/index.js"></script> -->
     </div>
 
-
-    
   </body>
 </html>
 

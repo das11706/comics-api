@@ -15,7 +15,7 @@ Review.destroy_all
 
 
 
-comic_1 = Comic.create( artist: "Stan Lee", title: "Spiderman" )
+comic_1 = Comic.create( artist: "Stan Lee", title: "The Amazing Spiderman" )
 comic_2 = Comic.create( artist: "Frank Miller", title: "Batman The Dark Knight" )
 
 

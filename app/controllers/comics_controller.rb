@@ -3,8 +3,12 @@ class ComicsController < ApplicationController
   def index
     comics = Comic.all
     # render json: comics, except: [:created_at, :updated_at]
-    render json: comics, only: [:artist, :title]
+    # render json: comics, only: [:artist, :title]
+    # render json: comics
+    render json: ComicSerializer.new(comics).to_serialized_json
   end
+
+  
 
   def new
     comic = Comic.new
@@ -13,19 +17,24 @@ class ComicsController < ApplicationController
   end
 
   def create
-    comic = Comic.new()
+    comic = Comic.new
+    comic.title = params[:title]
+    comic.artist = params[:artist]
+    comic.save
     if comic
-      redirect_to comic
-      # redirect_to json: { title: comic.title, artist: comic.artist }
-    else
-      render :new
+      # redirect_to comic
+      render json: comic, only: [:artist, :title]
+    #   redirect_to json: comic, only: [:artist, :title]
+    # else
+    #   render :new
     end
   end
 
   def show
     comic = Comic.find_by(id: params[:id])
     if comic
-      render json: { title: comic.title, artist: comic.artist }
+      # render json: { title: comic.title, artist: comic.artist }
+      render json: comic
     else
       render json: { message: "Comic does not exist"}
     end
