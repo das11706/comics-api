@@ -9,7 +9,7 @@ class Comic {
   }
 
   allComicReview() {
-    return 
+    return // comic.reviews returns a comics's reviews
   }
 }
 
@@ -19,7 +19,7 @@ class Review {
   }
 
   newReview() {
-    return this.description
+    return this.description;
   }
 }
 
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const comicForm = document.getElementById("comic-form");
   comicForm.addEventListener("submit", (event) => createNewComic(event));
 
-  const reviewUl = document.getElementById("reviews")
+  const reviewUl = document.getElementById("reviews");
   const reviewSubmit = document.getElementById("submit-review");
   const reviewForm = document.getElementById("review-form");
   reviewForm.addEventListener("submit", (event) => createNewReview(event));
@@ -49,23 +49,31 @@ document.addEventListener("DOMContentLoaded", () => {
   
     function renderComics(comic) {
     
-      const com = new Comic(comic.title, comic.artist)
+      // const com = new Comic(comic.id, comic.title, comic.artist)
+      const com = new Comic(comic.title, comic.artist);
       const comicLi = document.createElement("li");
-      comicLi.dataset.id = comic.id
-      comicLi.innerHTML = com.title
+      comicLi.dataset.id = comic.id;
+      comicLi.innerHTML = com.comicInfo();
+      // comicLi.innerHTML = com.title
       comicColl.appendChild(comicLi);
-      const a = document.createElement('a');
-      a.dataset.id = comic.id
-      a.innerHTML = com.comicInfo();
-      comicColl.appendChild(a);
+      // const a = document.createElement('a');
+      // a.dataset.id = comic.id
+      // a.innerHTML = com.comicInfo();
+      // comicColl.appendChild(a);
     
-      // const buttonRev = document.createElement("button")
-      // buttonRev.setAttribute("id", "submit-review")
-      // buttonRev.innerText = "Create New Review"
-      // comicColl.appendChild(buttonRev);
-      // buttonRev.addEventListener("click", (event) => {
-      //   if (event.target.id === "submit-review")
-      //   createNewReview()}) 
+ 
+      // select = document.getElementById("comicidforreview")
+      // let opt = document.createElement('option');
+      // opt.value = comic.id;
+      // opt.innerHTML = comic.id;
+      // select.appendChild(opt);
+
+      select = document.getElementById("comicidforreview");
+      let opt = document.createElement('option');
+      opt.value = comic.title;
+      opt.innerHTML = comic.title;
+      select.appendChild(opt);
+
 
       // buttonRev.addEventListener("click", (event) => {
       //   if (event.target.id === "submit-review")
@@ -81,9 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // })
       
 
-      const buttonDel = document.createElement("button")
-      buttonDel.setAttribute("id", "delete-button")
-      buttonDel.innerText = "DELETE"
+      const buttonDel = document.createElement("button");
+      buttonDel.setAttribute("id", "delete-button");
+      buttonDel.innerText = "DELETE";
       comicColl.appendChild(buttonDel);
       buttonDel.addEventListener("click", (event) => {
         if (event.target.id === "delete-button")
@@ -101,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(() => {
           comicLi.remove();
           // reviewLi.remove();  I need to connect the review to the comic to be able to delete them both simultaneously. If I delete the comic I also want to delete the review.
-          a.remove();
+          // a.remove();
           buttonDel.remove();
           buttonRev.remove();
           buttonDel.removeEventListener("click", 'delete-button');
@@ -109,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
- 
+    
     function createNewComic(event) {
       event.preventDefault();
       return fetch("http://localhost:3000/comics", {
@@ -119,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "Accept": "application/json"
         },
         body: JSON.stringify({
+          // id: event.target.id.value, //This line did not allow for line 128 below to run.
           title:  event.target.title.value,
           artist: event.target.artist.value
         })
@@ -131,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
-
+    // debugger
     function createNewReview(event) {
       event.preventDefault();
       return fetch("http://localhost:3000/reviews", {
@@ -141,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "Accept": "application/json"
         },
         body: JSON.stringify({
+          // comicid: event.target.comicidforreview.value,
           description: event.target.description.value
         })
       })
@@ -156,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetch("http://localhost:3000/reviews")
       .then(resp => resp.json())
-      .then(comics => comics.forEach(renderReviews))
+      .then(reviews => reviews.forEach(renderReviews))
 
   function renderReviews(review) {
     // mainCont.innerHTML = "";

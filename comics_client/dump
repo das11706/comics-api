@@ -1,0 +1,39 @@
+      <h2>Create a new comic:</h2>
+      <form id="comic-form" action="http://localhost:3000/reviews" method="POST">
+       
+        <!-- <label for="newComic">Comic:</label> -->
+        <br>
+        <input type="text" id="title" name="title" placeholder="title">
+        <br>
+        <input type="text" id="artist" name="artist" placeholder="artist">
+        <br>
+        <input type="submit" id="submit-comic" value="New comic">
+      </form>
+
+      <div id="list">
+        <!-- <h2>Comics</h2> -->
+        <ul id="comics">
+          
+        </ul>
+      </div>
+
+
+
+
+
+      <form id="review-form" action="http://localhost:3000/reviews" method="POST">
+       
+        <!-- <label for="newReview">Review:</label> -->
+        <h2>Create a review:</h2>
+        <br>
+        <input type="text" id="description" name="description" placeholder="description">
+        <br>
+        <input type="submit" id="submit-review" value="New Review">
+      </form>
+
+      <div id="list">
+        <h2>Reviews</h2>
+        <ul id="reviews">
+        </ul>
+      </div>
+

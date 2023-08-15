@@ -1,0 +1,6 @@
+const divRev = document.createElement("div");
+const divcontent = "<h2>Create a new comic:</h2><form id='comic-form' action='http://localhost:3000/reviews' method='POST'><br><input type='text' id='title' name='title' placeholder='title'><br><input type='text' id='artist' name='artist' placeholder='artist'><br><input type='submit' id='submit-comic' value='New comic'></form>");
+
+divRev.appendChild(divcontent);
+
+comicColl.appendChild(divRev);

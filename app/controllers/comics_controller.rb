@@ -17,10 +17,10 @@ class ComicsController < ApplicationController
   end
 
   def create
-    comic = Comic.new
-    comic.title = params[:title]
-    comic.artist = params[:artist]
-    comic.save
+    comic = Comic.new(comic_params)
+    # comic.title = params[:title]
+    # comic.artist = params[:artist]
+    comic.save!
     if comic
       # redirect_to comic
       render json: comic, only: [:artist, :title]
@@ -38,6 +38,12 @@ class ComicsController < ApplicationController
     else
       render json: { message: "Comic does not exist"}
     end
+  end
+
+  private
+
+  def comic_params
+    params.require(:comic).permit(:title, :artist, reviews_attributes: [:description])
   end
 
 

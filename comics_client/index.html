@@ -27,8 +27,12 @@
 
       <p id="para"></p> -->
 
-      <h2>Create a new comic:</h2>
-      <form id="comic-form" action="http://localhost:3000/reviews" method="POST">
+
+      <!-- <div id="comic-form">
+
+      </div> -->
+
+      <form id="comic-form" action="http://localhost:3000/comics" method="POST">
        
         <!-- <label for="newComic">Comic:</label> -->
         <br>
@@ -49,12 +53,19 @@
 
 
 
+
       <form id="review-form" action="http://localhost:3000/reviews" method="POST">
        
         <!-- <label for="newReview">Review:</label> -->
         <h2>Create a review:</h2>
         <br>
         <input type="text" id="description" name="description" placeholder="description">
+        <input type="hidden" id="comic_id" name="comic_id"  >
+        <input type="hidden" id="reader_id" name="reader_id"  >
+
+        <!-- <textarea type="text" id="description" name="description" placeholder="description"></textarea> -->
+        <select id="comicidforreview"  name="comicidforreview" placeholder="comicid">
+        </select>
         <br>
         <input type="submit" id="submit-review" value="New Review">
       </form>
