@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" href="./style.css">
     <title>Comics API</title>
-    <script type="text/javascript" src="./src/index.js" defer></script>
+    
   </head>
   <body>
     <h1>Comics</h1>
@@ -18,56 +18,40 @@
 
     <div id="main-content">
 
-      <!-- <h2>Comics</h2>
-
-      <select id="comicList" onchange= "onchangeDropdown()">
-        <option value= "Batman">Batman the Dark Knight</option>
-        <option value="Spiderman">The Amazing Spiderman</option>
-      </select>
-
-      <p id="para"></p> -->
-
-
-      <!-- <div id="comic-form">
-
-      </div> -->
-
       <form id="comic-form" action="http://localhost:3000/comics" method="POST">
        
-        <!-- <label for="newComic">Comic:</label> -->
         <br>
         <input type="text" id="title" name="title" placeholder="title">
         <br>
         <input type="text" id="artist" name="artist" placeholder="artist">
         <br>
-        <input type="submit" id="submit-comic" value="New comic">
+        <input type="submit" id="submit" value="New comic">
       </form>
 
       <div id="list">
-        <!-- <h2>Comics</h2> -->
         <ul id="comics">
         </ul>
       </div>
 
 
-
-
-
-
-      <form id="review-form" action="http://localhost:3000/reviews" method="POST">
+      <!-- <form id="review-form" action="http://localhost:3000/reviews" method="POST"> -->
+      <form id="review-form" action="" method="POST">
        
-        <!-- <label for="newReview">Review:</label> -->
+        <br>
         <h2>Create a review:</h2>
         <br>
         <input type="text" id="description" name="description" placeholder="description">
-        <input type="hidden" id="comic_id" name="comic_id"  >
-        <input type="hidden" id="reader_id" name="reader_id"  >
-
-        <!-- <textarea type="text" id="description" name="description" placeholder="description"></textarea> -->
-        <select id="comicidforreview"  name="comicidforreview" placeholder="comicid">
+        <select id="comic_id" class="dropdown" name="comic_id" placeholder="comicid"> 
+          <option value="">First Select a Comic</option>
         </select>
+
         <br>
         <input type="submit" id="submit-review" value="New Review">
+
+        <!-- <input type="hidden" id="review_id" name="review_id" value=""> -->
+        <input type="hidden" id="review_id_hidden" name="review_id" value="">
+        <input type="submit" id="submit-review-update" value="Update Review">
+        <!-- <input type="submit" id="submit-review" value="Update Review"> -->
       </form>
 
       <div id="list">
@@ -77,8 +61,6 @@
       </div>
 
     </div>
-
+    <script type="text/javascript" src="./src/index.js" defer></script>
   </body>
 </html>
-
-

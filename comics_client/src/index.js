@@ -1,101 +1,103 @@
 class Comic {
-  constructor(title, artist) {
+  constructor(title, artist, id) {
     this.title = title;
     this.artist = artist;
+    this.id = id;
   }
 
   comicInfo() {
     return `${this.title} written by ${this.artist}`
   }
 
-  allComicReview() {
-    return // comic.reviews returns a comics's reviews
-  }
 }
+
+// class Review {
+//   constructor(description, id, comic_id) {
+//     this.description = description;
+//     this.id = id;
+//     this.comic_id = comic_id;
+//   }
 
 class Review {
   constructor(description) {
     this.description = description;
+   
   }
 
   newReview() {
-    return this.description;
+    return this.description
   }
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const mainCont = document.getElementById("main-content");
   const comicColl = document.getElementById("comic-collection");
   const comicSubmit = document.getElementById("submit-comic");
+  
   const comicForm = document.getElementById("comic-form");
   comicForm.addEventListener("submit", (event) => createNewComic(event));
 
+  const comicDropdown = document.getElementById("comic_id");
+  comicDropdown.addEventListener("change", (event) => {
+    const selectedComicId = event.target.value;
+    renderComicReviews(selectedComicId);
+  });
+  
+  // const reviewsUrl = "http://localhost:3000/reviews"
   const reviewUl = document.getElementById("reviews");
   const reviewSubmit = document.getElementById("submit-review");
   const reviewForm = document.getElementById("review-form");
-  reviewForm.addEventListener("submit", (event) => createNewReview(event));
+  const reviewDropdown = document.getElementById("review_id_hidden");
+
+  // reviewForm.addEventListener("submit", (event) => createNewReview(event));
+
+  reviewDropdown.addEventListener("change", (event) => {
+    const selectedReviewId = event.target.value;
+    reviewForm.review_id.value = selectedReviewId;
+  });
+
+  reviewForm.addEventListener("submit", (event) => updateReview(event));
   
-  // reviewForm.addEventListener("submit", createReview); // alternate version I'm working on for reviewForm along with the code at the very bottome outside of the DOMContentLoaded.
+  const submitReviewButton = document.getElementById("submit-review");
+  const updateReviewButton = document.getElementById("submit-review-update");
+
+  submitReviewButton.addEventListener("click", (event) => createNewReview(event));
+  updateReviewButton.addEventListener("click", () => {
+    const reviewId = reviewForm.querySelector("#review_id_hidden").value;
+    updateReview(reviewId);
+  });
 
 
     fetch("http://localhost:3000/comics")
     .then(resp => resp.json())
-    .then(comics => comics.forEach(renderComics))
+    .then(comics => comics.map(renderComics))
 
-    // fetch(`http://localhost:3000/comics/${comic.id}`)
-    // .then(resp => resp.json())
-    // .then(renderComics)
-    // .then(comics => comics.forEach(renderComics))
   
     function renderComics(comic) {
     
-      // const com = new Comic(comic.id, comic.title, comic.artist)
-      const com = new Comic(comic.title, comic.artist);
+      const com = new Comic(comic.title, comic.artist, comic.id);
       const comicLi = document.createElement("li");
       comicLi.dataset.id = comic.id;
       comicLi.innerHTML = com.comicInfo();
-      // comicLi.innerHTML = com.title
       comicColl.appendChild(comicLi);
-      // const a = document.createElement('a');
-      // a.dataset.id = comic.id
-      // a.innerHTML = com.comicInfo();
-      // comicColl.appendChild(a);
-    
+     
  
-      // select = document.getElementById("comicidforreview")
-      // let opt = document.createElement('option');
-      // opt.value = comic.id;
-      // opt.innerHTML = comic.id;
-      // select.appendChild(opt);
-
-      select = document.getElementById("comicidforreview");
+      select = document.getElementById("comic_id")
       let opt = document.createElement('option');
-      opt.value = comic.title;
+      opt.value = comic.id;
       opt.innerHTML = comic.title;
       select.appendChild(opt);
 
+      //COMMENTING OUT THIS BUTTON DELETE FEATURE FOR COMICS. ONCE COMICS ARE CREATED THEY ARE NOT ABLE TO BE DELETED.
 
-      // buttonRev.addEventListener("click", (event) => {
-      //   if (event.target.id === "submit-review")
-      //   reviewForm.addEventListener("submit", (event) => createNewReview(event))}) 
-
-
-      // reviewSubmit.setAttribute("id", "submit-review")
-      // reviewSubmit.innerText = "REVIEW"  
-      // comicColl.appendChild(reviewSubmit);
-      // reviewSubmit.addEventListener("click", (event) => {
-      //   if (event.target.id === "submit-review")
-      //   createNewReview()
-      // })
-      
-
-      const buttonDel = document.createElement("button");
-      buttonDel.setAttribute("id", "delete-button");
-      buttonDel.innerText = "DELETE";
-      comicColl.appendChild(buttonDel);
-      buttonDel.addEventListener("click", (event) => {
-        if (event.target.id === "delete-button")
-        deleteComic()})
+      // const buttonDel = document.createElement("button");
+      // buttonDel.setAttribute("id", "delete-button");
+      // buttonDel.innerText = "DELETE";
+      // comicColl.appendChild(buttonDel);
+      // buttonDel.addEventListener("click", (event) => {
+      //   if (event.target.id === "delete-button")
+      //   deleteComic()})
 
       function deleteComic(){
         fetch(`http://localhost:3000/comics/${comic.id}`, {
@@ -108,10 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(resp => resp.json())
         .then(() => {
           comicLi.remove();
-          // reviewLi.remove();  I need to connect the review to the comic to be able to delete them both simultaneously. If I delete the comic I also want to delete the review.
-          // a.remove();
           buttonDel.remove();
-          buttonRev.remove();
+          // buttonRev.remove();
           buttonDel.removeEventListener("click", 'delete-button');
         })
       }
@@ -127,22 +127,28 @@ document.addEventListener("DOMContentLoaded", () => {
           "Accept": "application/json"
         },
         body: JSON.stringify({
-          // id: event.target.id.value, //This line did not allow for line 128 below to run.
           title:  event.target.title.value,
           artist: event.target.artist.value
         })
       })
       .then(resp => resp.json())
-      .then(comics => comics.forEach(renderComics))  
+      .then(comics => comics.map(renderComics))  
       // .then(renderComics)
       .catch(function(error) {
-        console.log(error.message);
+        console.log(error.message); 
       });
     };
 
-    // debugger
+  
     function createNewReview(event) {
       event.preventDefault();
+
+      // const description = event.target.description.value;
+      // const comicId = event.target.comic_id.value;
+
+      const description = reviewForm.querySelector("#description").value;
+      const comicId = reviewForm.querySelector("#comic_id").value;
+
       return fetch("http://localhost:3000/reviews", {
         method : "POST",
         headers: {
@@ -150,120 +156,167 @@ document.addEventListener("DOMContentLoaded", () => {
           "Accept": "application/json"
         },
         body: JSON.stringify({
-          // comicid: event.target.comicidforreview.value,
-          description: event.target.description.value
-        })
+          description: description,
+          comic_id: comicId,
+        }),
       })
-      .then(response => response.json())
-      // .then(reviews => reviews.forEach(renderReviews))
-      .then(renderReviews)
-      .then(event.target.reset())
+      .then(resp => resp.json())
+      .then((review) => renderReviews(review))
+      .then(() => reviewForm.reset())
       .catch(function(error) {
         console.log(error.message);
       });
     };
 
 
-    fetch("http://localhost:3000/reviews")
+    function renderComicReviews(comicId) {
+      fetch(`http://localhost:3000/comics/${comicId}`)
+        .then((resp) => resp.json())
+        .then((comic) => {
+          const reviews = comic.reviews;
+          reviewUl.innerHTML = '';
+          reviews.map((review) => renderReviews(review));
+        })
+        .catch(function(error){
+          console.log(error.message);
+        })
+    }
+
+
+
+    fetch("http://localhost:3000/reviews/")
       .then(resp => resp.json())
-      .then(reviews => reviews.forEach(renderReviews))
+      .then(reviews => reviews.map(renderReviews))
 
   function renderReviews(review) {
-    // mainCont.innerHTML = "";
-    // comicColl.innerHTML = "";
-    const rev = new Review(review.description);
+    // reviewUl.innerHTML = "";
+    const rev = new Review(review.description, review.id, review.comic_id);
     const reviewLi = document.createElement("li");
-    reviewLi.dataset.id = review.id;
+    // reviewLi.dataset.id = review.id;
+    reviewLi.dataset.id = review.comic_id
     reviewLi.innerHTML = rev.newReview();
     reviewUl.appendChild(reviewLi);
     
    
-    const buttonDel = document.createElement("button")
-    buttonDel.setAttribute("id", "delete-button")
+    const buttonDel = document.createElement("button");
+    buttonDel.setAttribute("id", "delete-button");
     buttonDel.innerText = "DELETE";
     reviewUl.appendChild(buttonDel);
     buttonDel.addEventListener("click", (event) => {
-    // event.target.reset();
     if (event.target.id === 'delete-button')
     deleteReview()});
 
 
-    function deleteReview(){
+    const buttonRev = document.createElement("button");
+    buttonRev.setAttribute("class", "update-rev-button");
+    buttonRev.innerText = "Select to Edit Review";
+    reviewLi.appendChild(buttonRev);
+    // reviewUl.appendChild(buttonRev);
+    buttonRev.addEventListener("click", () => updateReviewForm(review.id));
+    // buttonRev.addEventListener("click", (event) => {
+    //   if (event.target.id === 'update-rev-button') {
+    //     const reviewId = review.id;
+    //   updateReview(reviewId);
+    //   }
+    // });
+
+
+    // function deleteReview(){
+    //   fetch(`http://localhost:3000/reviews/${review.id}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //   "content-type": "application/json",
+    //   "Accept": "application/json"
+    //   }
+    //   })
+    //   .then(resp => resp.json())
+    //   .then(() => {
+    //     reviewLi.remove();
+    //     buttonDel.remove();
+    //     buttonDel.removeEventListener("click", 'delete-button');
+    //   })
+    // }
+
+    function deleteReview() {
       fetch(`http://localhost:3000/reviews/${review.id}`, {
-      method: "DELETE",
-      headers: {
-      "content-type": "application/json",
-      "Accept": "application/json"
-      }
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Accept: "application/json",
+        },
       })
-      .then(resp => resp.json())
-      .then(() => {
-        reviewLi.remove();
-        buttonDel.remove();
-        buttonDel.removeEventListener("click", 'delete-button');
-      })
+        .then((resp) => {
+          if (resp.status === 204) {
+            reviewLi.remove();
+            buttonDel.remove();
+            buttonDel.removeEventListener("click", 'delete-button');
+          } else {
+            console.log("Failed to delete review.");
+          }
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
     }
+    
+    
+
   }
 
 
+function updateReview(reviewId) {
+  // event.preventDefault();
+
+  const description = document.querySelector("#description").value;
+  const reviewIdHidden = document.querySelector("#review_id_hidden").value;
+
+  fetch(`http://localhost:3000/reviews/${reviewId}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        description: description,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((updatedReview) => {
+        const existingReviewLi = document.querySelector(`li[data-id="${reviewId}"]`);
+        existingReviewLi.innerHTML = updatedReview.description;
+        // reviewIdHidden.value = review.id;
+        document.querySelector("#review-form").reset();
+        document.querySelector("#submit-review").style.display = "inline-block";
+        document.querySelector("#submit-review-update").style.display = "none";
+      })
+      .catch(function(error){
+        console.log(error.message);
+      });
+  }
+
+  function updateReviewForm(reviewId) {
+    // const reviewForm = document.getElementById("review-form");
+    const descriptionInput = reviewForm.querySelector("#description");
+    const reviewIdHidden = reviewForm.querySelector("#review_id_hidden");
+    const submitReviewButton = reviewForm.querySelector("#submit-review");
+    const updateReviewButton = reviewForm.querySelector("#submit-review-update");
+    
+    fetch(`http://localhost:3000/reviews/${reviewId}`)
+    .then((resp) => resp.json())
+    .then((review) => {
+      descriptionInput.value = review.description;
+      reviewIdHidden.value = review.id;
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
+
+    submitReviewButton.style.display = "none";
+    updateReviewButton.style.display = "inline-block";
+  }
+
+
+
+
 });
-
-
-
-// const appendNewReview = (review) => {
-//   const rev = new Review(review.description);
-
-//   document.getElementById("reviews").appendChild(review);
-// };
-
-// const createReview = (event) => {
-//   event.preventDefault();
-//   const newReviewDescription = document.getElementById("description");
-//   const newReview = document.createElement("li");
-//   newReview.innerText = newReviewDescription.value;
-
-//   appendNewReview(newReview);
-//   event.target.reset();
-// };
-
-// I was useing the code below for renderReviews to take info from it an add it to the createReview function right above to expand on its funtionality. Still working on this as a possibility.
-
-
-// function renderReviews(review) {
-//   // mainCont.innerHTML = "";
-//   // comicColl.innerHTML = "";
-//   const rev = new Review(review.description);
-//   const reviewLi = document.createElement("li");
-//   reviewLi.dataset.id = review.id;
-//   reviewLi.innerHTML = rev.newReview();
-//   reviewUl.appendChild(reviewLi);
-  
- 
-//   const buttonDel = document.createElement("button")
-//   buttonDel.setAttribute("id", "delete-button")
-//   buttonDel.innerText = "DELETE";
-//   reviewUl.appendChild(buttonDel);
-//   buttonDel.addEventListener("click", (event) => {
-//   // event.target.reset();
-//   if (event.target.id === 'delete-button')
-//   deleteReview()});
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
 

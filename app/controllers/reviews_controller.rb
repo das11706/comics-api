@@ -2,31 +2,30 @@ class ReviewsController < ApplicationController
 
   def index
     reviews = Review.all 
-    render json: ReviewSerializer.new(reviews).to_serialized_json
+    render json: reviews
+    # render json: ReviewSerializer.new(reviews).to_serialized_json
   end
 
-  def new
-    review = Review.new(comic_id: params[:comic_id])
-  end
+  # def new
+  #   review = Review.new(comic_id: params[:comic_id])
+  # end
 
   def create
-    # review = Review.new(review_params)
-    # comic = Comic.find(params[:id])
-    # comic = Comic.find_by(id: params[:id])
     review = Review.new(review_params)
-    # reader = Reader.find(params[:reader_id])
-    # review = comic.reviews.build(review_params)
-    # review.reader = reader
-    # review.errors.messages
-    # review.description = params[:description]
-    review.save
-    # if review
-      render json: review, only: [:description]
-    # else
-    #   render :new
-    # end
-  end
+    # review.save
 
+    # review = Review.new
+    # review.description = params[:description]
+    # review.comic_id = params[:comic_id]
+    # review.save
+
+    if review.save
+      render json: review, only: [:description, :comic_id]
+    else
+      # render :new
+      render json: review.errors
+    end
+  end
 
   
   def show
@@ -40,15 +39,32 @@ class ReviewsController < ApplicationController
     end
   end
 
+
+  def edit
+    review = Review.find(params[:id])
+  end
+
+  def update
+    review = Review.find(params[:id])
+    if review.update(description: params[:description])
+      render json: review
+    else
+      render json: review.errors
+    end
+  end
+
+
   def destroy
-    Review.find(params[:id]).destroy
-    render Json: review
+    review = Review.find(params[:id])
+    review.destroy
+    head :no_content
+    # render json: review
   end
 
   private
 
   def review_params
-    params.require(:review).permit(:description, :comic_id, :reader_id)
+    params.require(:review).permit(:description, :comic_id)
   end
   
 end

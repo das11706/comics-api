@@ -18,22 +18,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_18_191432) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "readers", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.string "description"
     t.integer "comic_id", null: false
-    t.integer "reader_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["comic_id"], name: "index_reviews_on_comic_id"
-    t.index ["reader_id"], name: "index_reviews_on_reader_id"
   end
 
   add_foreign_key "reviews", "comics"
-  add_foreign_key "reviews", "readers"
 end
